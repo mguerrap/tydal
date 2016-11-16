@@ -7,6 +7,12 @@ We are developing CurrentsDiscovery as an interactive tool to use scientific mea
 * How does that manifest into water level in the Strait, and Puget Sound?
 * What happens underneath the surface (i.e., how are tidal elevations and currents related)?
 
+The tasks associated with this questions involve:
+
+* Develop text and images to describe how tides are related to the position of the moon
+* Develop text and interactive plots to show how tides propogate into the Strait of Juan de Fuca
+* Develop text and interactive plots to show the relation of currents to tidal elevations
+
 =======
 ## Below are the use cases we anticipate for our 
 
