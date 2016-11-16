@@ -7,26 +7,23 @@ explores tides and the currents associated with tides.
 The project has the following structure:
 
 CurrentDiscovery/
-	|- README.md
-	|- LICENSE.md
-	|- UseCases.md
-	|- data/
-		|- tides.csv
-		|- ferry.csv
-	|- doc/
-		|- Makefile
-		|- conf.py
-		|- sphinxext/
-			|- ...
-		|- _static/
-			|- ...
-	|- setup.py
-	|- .travis.yml
-	|- ipynb/
-		|- ...
-
-
-
+	README.md
+	LICENSE.md
+	UseCases.md
+	data/
+		tides.csv
+		ferry.csv
+	doc/
+		Makefile
+		conf.py
+		sphinxext/
+			...
+		_static/
+			...
+	setup.py
+	.travis.yml
+	ipynb/
+		...
 
 ******************************************************************************
 MIT license:
