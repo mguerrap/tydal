@@ -27,7 +27,7 @@ filenames = []
 
 
 def get_data_2014(station="9444900", begin="20140101", end="20140131"):
-	"""
+    """
     This fuction gets the data from 2014 in month chunks.
     The NOAA site limits data requests to one month.
 
@@ -56,20 +56,20 @@ def get_data_2014(station="9444900", begin="20140101", end="20140131"):
 
 # Collects the data for the whole year saved in monthly csv files
 for station in station_names_to_id:
-	# Gets the data for each station
-	for i in range(0, len(start_list)):
-		get_data_2014(station_names_to_id[station], start_list[i], end_list[i])
-	# For each station set of data, read the files and convert to one file
-	for i in range(0, len(filenames)):
-		buff = pd.read_csv(filenames[i])
-		data = data.append(buff)
-	# Sets outfile to the station name and year
-	outfile = ("2014_" + station_id_to_names[filenames[0][0:7]] + ".csv")
-	data.to_csv(outfile)
-	# Want to remove monthly files
-	first = os.getcwd()
-	for i in range(0, len(filenames)):
-		os.remove(first + "/" + filenames[i])
-	# Resets filenames and data
-	filenames = []
-	data = pd.DataFrame()
+    # Gets the data for each station
+    for i in range(0, len(start_list)):
+        get_data_2014(station_names_to_id[station], start_list[i], end_list[i])
+    # For each station set of data, read the files and convert to one file
+    for i in range(0, len(filenames)):
+        buff = pd.read_csv(filenames[i])
+        data = data.append(buff)
+    # Sets outfile to the station name and year
+    outfile = ("2014_" + station_id_to_names[filenames[0][0:7]] + ".csv")
+    data.to_csv(outfile)
+    # Want to remove monthly files
+    first = os.getcwd()
+    for i in range(0, len(filenames)):
+        os.remove(first + "/" + filenames[i])
+    # Resets filenames and data
+    filenames = []
+    data = pd.DataFrame()
