@@ -64,7 +64,7 @@ for station in station_names_to_id:
 		buff = pd.read_csv(filenames[i])
 		data = data.append(buff)
 	# Sets outfile to the station name and year
-	outfile = (station_id_to_names[filenames[0][0:7]] + "2014" + ".csv")
+	outfile = ("2014_" + station_id_to_names[filenames[0][0:7]] + ".csv")
 	data.to_csv(outfile)
 	# Want to remove monthly files
 	first = os.getcwd()
