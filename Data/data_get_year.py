@@ -66,6 +66,10 @@ for station in station_names_to_id:
     # For each station set of data, read the files and convert to one file
     for i in range(0, len(filenames)):
         buff = pd.read_csv(filenames[i])
+        # Drop the unnecessary columns from the data
+        buff.drop(buff.columns[[3, 4, 5, 6, 7]], axis=1, inplace=True)
+        # Trim off the white space on the column names
+        buff.columns = ["Date Time", "Water Level", "Sigma"]
         data = data.append(buff)
     # Sets outfile to the station name and year
     outfile = (year + "_" + station_id_to_names[filenames[0][0:7]] + ".csv")
