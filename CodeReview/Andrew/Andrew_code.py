@@ -1,3 +1,4 @@
+# This is a file for the code review pushed on my branch
 import os
 import numpy as np
 import pandas as pd
@@ -124,27 +125,3 @@ def plot_tide_data(dt):
                     color="red", s=100)
     axes[2].grid()
 
-
-def plot_tidal_elevation(slide):
-    """
-    Function to plot the tidal elevation taken from
-    the function plot_tide_data interactive slider
-    """
-    try:
-        fig, axes = plt.subplots(nrows=1, ncols=1)
-        # Get each station's tidal elevation based on the widget slider
-        NBelev = NB.values[slide.value]
-        PAelev = PA.values[slide.value]
-        PTelev = PT.values[slide.value]
-        # Create dummy x-values
-        x = (1, 2, 3)
-        y = (NBelev, PAelev, PTelev)
-        # Create the figure with station labels
-        plt.scatter(x, y, s=100, color="red", zorder=2)
-        plt.plot(x, y, 'b', zorder=1)
-        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
-                   rotation='vertical')
-        plt.grid()
-        plt.ylabel('Tidal Elevation (m)')
-    except:
-        return None
