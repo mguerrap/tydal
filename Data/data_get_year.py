@@ -45,8 +45,8 @@ def get_data_year(station="9444900", begin="0101", end="0131", year="2014"):
     second_index = year + end
     URL = ("https://tidesandcurrents.noaa.gov/api/datagetter?product=water_" +
            "level&application=NOS.COOPS.TAC.WL&station=" + station + "&" +
-           "begin_date=" + begin + "&end_date=" + end + "&datum=MLLW&units=" +
-           "english&time_zone=GMT&format=csv")
+           "begin_date=" + first_index + "&end_date=" + second_index +
+           "&datum=MLLW&units=" + "english&time_zone=GMT&format=csv")
     outfile = station + first_index + ".csv"
     req = requests.get(URL)
     assert req.status_code == 200
@@ -66,6 +66,10 @@ for station in station_names_to_id:
     # For each station set of data, read the files and convert to one file
     for i in range(0, len(filenames)):
         buff = pd.read_csv(filenames[i])
+        # Drop the unnecessary columns from the data
+        buff.drop(buff.columns[[3, 4, 5, 6, 7]], axis=1, inplace=True)
+        # Trim off the white space on the column names
+        buff.columns = ["Date Time", "Water Level", "Sigma"]
         data = data.append(buff)
     # Sets outfile to the station name and year
     outfile = (year + "_" + station_id_to_names[filenames[0][0:7]] + ".csv")

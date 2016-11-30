@@ -60,7 +60,6 @@ def ferry_data_QC(ferry,TH_abs,TH_u,TH_d):
 	ferryQC = ferry.isel(depth = slice(TH_d, None))
 	return(ferryQC)
 
-
 def count_route_num(ferryQc):
 	""" adds a variable to ferryQc dataset to mark the crossing number
 
@@ -99,6 +98,7 @@ def count_route_num(ferryQc):
 	        xing_num[ii] = counter
 	    if  (on_route[ii] and not(on_route[ii-1])):
 	        counter = counter+1
+
 	xing_num = xr.DataArray(xing_num, coords=ferry_small.time.indexes, dims=['time'])
 	ferry_small['xing_num'] = xing_num
 
