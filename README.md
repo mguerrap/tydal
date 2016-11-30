@@ -6,24 +6,21 @@ explores tides and the currents associated with tides.
 ## Organization of the project
 The project has the following structure:
 
-	CurrentDiscovery/
+	Tydal/
 		README.md
 		LICENSE.md
 		UseCases.md
+		gitignore
 		data/
 			tides.csv
 			ferry.csv
-		doc/
-			Makefile
-			conf.py
-			sphinxext/
-				...
-			_static/
-				...
-		setup.py
-		.travis.yml
-		ipynb/
-			...
+		Modules/
+			Module1.ipynb
+			Module2.ipynb
+			Module3.ipynb
+		Tydal/
+			functions.py
+			init.py
 
 ******************************************************************************
 MIT license:
