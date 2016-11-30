@@ -10,7 +10,8 @@ The project has the following structure:
 		README.md
 		LICENSE.md
 		UseCases.md
-		gitignore
+		DataSetDescription.md
+		.gitignore
 		data/
 			tides.csv
 			ferry.csv
