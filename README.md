@@ -1,6 +1,6 @@
-# Current Discovery
+# Tydal
 
-Current Discovery is a project that is inteded as a learning tool.  It
+Tydal is a project that is inteded as a learning tool.  It
 explores tides and the currents associated with tides.
 
 ## Organization of the project
