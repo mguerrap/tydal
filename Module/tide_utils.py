@@ -175,6 +175,7 @@ def plot_tide_time_series(NB,PA,PT,dt):
         PA - Port Angeles tide DataArray
         PT - Port Townsend tide DataArray
     """
+    import tide_utils as tide
     fig, axes = plt.subplots(nrows=3)
     NB.plot(ax=axes[0])
     axes[0].scatter(x=NB.datetime.values[dt], y=NB.values[dt],
@@ -190,7 +191,7 @@ def plot_tide_time_series(NB,PA,PT,dt):
     axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
                     color="red", s=100)
     axes[2].grid()
-    plot_tidal_elevation(NB,PA,PT,dt)
+    tide.plot_tidal_elevation(NB,PA,PT,dt)
 
 
 
