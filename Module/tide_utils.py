@@ -16,15 +16,17 @@ def load_Neah_Bay(datadir):
         return None
     else:
         NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
-                                   parse_dates=['Date Time'])
+                                   parse_dates=['Date Time'],
+                                   index_col=['Date Time'])
         NeahBay_2015 = pd.read_csv(datadir + "2015_NeahBay.csv",
-                                   parse_dates=['Date Time'])
+                                   parse_dates=['Date Time'],
+                                   index_col=['Date Time'])
         NeahBay_2016 = pd.read_csv(datadir + "2016_NeahBay.csv",
-                                   parse_dates=['Date Time'])
+                                   parse_dates=['Date Time'],
+                                   index_col=['Date Time'])
         NeahBay = NeahBay_2014.append(NeahBay_2015)
         NeahBay = NeahBay.append(NeahBay_2016)
-        NeahBay.rename(columns={'Date Time':'datetime'},
-                       inplace=True)
+        NeahBay.index.rename('datetime', inplace=True)
         return NeahBay
 
 
@@ -40,17 +42,19 @@ def load_Port_Townsend(datadir):
     else:
         PortTownsend_2014 = pd.read_csv(datadir +
                                         '2014_PortTownsend.csv',
-                                        parse_dates=['Date Time'])
+                                        parse_dates=['Date Time'],
+                                        index_col=['Date Time'])
         PortTownsend_2015 = pd.read_csv(datadir +
                                         '2015_PortTownsend.csv',
-                                        parse_dates=['Date Time'])
+                                        parse_dates=['Date Time'],
+                                        index_col=['Date Time'])
         PortTownsend_2016 = pd.read_csv(datadir +
                                         '2016_PortTownsend.csv',
-                                        parse_dates=['Date Time'])
+                                        parse_dates=['Date Time'],
+                                        index_col=['Date Time'])
         PortTownsend = PortTownsend_2014.append(PortTownsend_2015)
         PortTownsend = PortTownsend.append(PortTownsend_2016)
-        PortTownsend.rename(columns={'Date Time':'datetime'},
-                            inplace=True)
+        PortTownsend.index.rename('datetime', inplace=True)
         return PortTownsend
 
 
@@ -67,17 +71,19 @@ def load_Port_Angeles(datadir):
         # Load the Port Angeles tidal data and put into one dataframe
         PortAngeles_2014 = pd.read_csv(datadir +
                                        '2014_PortAngeles.csv',
-                                       parse_dates=['Date Time'])
+                                       parse_dates=['Date Time'],
+                                       index_col=['Date Time'])
         PortAngeles_2015 = pd.read_csv(datadir +
                                        '2015_PortAngeles.csv',
-                                       parse_dates=['Date Time'])
+                                       parse_dates=['Date Time'],
+                                       index_col=['Date Time'])
         PortAngeles_2016 = pd.read_csv(datadir +
                                        '2016_PortAngeles.csv',
-                                       parse_dates=['Date Time'])
+                                       parse_dates=['Date Time'],
+                                       index_col=['Date Time'])
         PortAngeles = PortAngeles_2014.append(PortAngeles_2015)
         PortAngeles = PortAngeles.append(PortAngeles_2016)
-        PortAngeles.rename(columns={'Date Time':'datetime'},
-                           inplace=True)
+        PortAngeles.index.rename('datetime', inplace=True)
         return PortAngeles
 
 
@@ -112,11 +118,62 @@ def create_tide_dataset(NeahBay, PortAngeles, PortTownsend):
     return Tides
 
 
-def plot_tide_data(dt):
+def plot_tide_data(Tides,time1,time2):
+    """
+    Function that allows to pass through variables to
+    the interactive widget.
+    Inputs:
+        Tides - Xarray DataSet with the tidal station data
+        time1 - start time to slice the tidal data
+        time2 - end time to slice the tidal data
+    """
+    from ipywidgets import interact
+    import ipywidgets as widgets
+
+    NB = Tides.NeahBay.sel(datetime=slice(time1,time2))
+    PA = Tides.PortAngeles.sel(datetime=slice(time1,time2))
+    PT = Tides.PortTownsend.sel(datetime=slice(time1,time2))
+
+    slide = widgets.IntSlider(1,1,len(NB.datetime.values)-1)
+    interact(plot_tide_time_series,NB=widgets.fixed(NB),
+             PA=widgets.fixed(PA),PT=widgets.fixed(PT),dt=slide)
+
+
+def plot_tidal_elevation(NB,PA,PT,slide):
+    """
+    Function to plot the tidal elevation taken from
+    the function plot_tide_data interactive slider
+    """
+    try:
+        fig, axes = plt.subplots(nrows=1, ncols=1)
+        # Get each station's tidal elevation based 
+        # on the widget slider
+        NBelev = NB.values[slide.value]
+        PAelev = PA.values[slide.value]
+        PTelev = PT.values[slide.value]
+        # Create dummy x-values
+        x = (1, 2, 3)
+        y = (NBelev, PAelev, PTelev)
+        # Create the figure with station labels
+        plt.scatter(x, y, s=100, color="red", zorder=2)
+        plt.plot(x, y, 'b', zorder=1)
+        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
+                   rotation='vertical')
+        plt.grid()
+        plt.ylabel('Tidal Elevation (m)')
+    except:
+        return None
+
+
+def plot_tide_time_series(NB,PA,PT,dt):
     """
     This function plots the three tidal stations for the given
     time period along with a marker showing the time and elevation
     selected using the widget slider
+    Input:
+        NB - Neah Bay tide DataArray
+        PA - Port Angeles tide DataArray
+        PT - Port Townsend tide DataArray
     """
     fig, axes = plt.subplots(nrows=3)
     NB.plot(ax=axes[0])
@@ -133,28 +190,8 @@ def plot_tide_data(dt):
     axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
                     color="red", s=100)
     axes[2].grid()
+    plot_tidal_elevation(NB,PA,PT,dt)
 
 
-def plot_tidal_elevation(slide):
-    """
-    Function to plot the tidal elevation taken from
-    the function plot_tide_data interactive slider
-    """
-    try:
-        fig, axes = plt.subplots(nrows=1, ncols=1)
-        # Get each station's tidal elevation based on the widget slider
-        NBelev = NB.values[slide.value]
-        PAelev = PA.values[slide.value]
-        PTelev = PT.values[slide.value]
-        # Create dummy x-values
-        x = (1, 2, 3)
-        y = (NBelev, PAelev, PTelev)
-        # Create the figure with station labels
-        plt.scatter(x, y, s=100, color="red", zorder=2)
-        plt.plot(x, y, 'b', zorder=1)
-        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
-                   rotation='vertical')
-        plt.grid()
-        plt.ylabel('Tidal Elevation (m)')
-    except:
-        return None
+
+
