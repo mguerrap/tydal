@@ -191,7 +191,26 @@ def plot_tide_time_series(NB,PA,PT,dt):
     axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
                     color="red", s=100)
     axes[2].grid()
-    tide.plot_tidal_elevation(NB,PA,PT,dt)
+    try:
+        fig, axes = plt.subplots(nrows=1, ncols=1)
+        # Get each station's tidal elevation based 
+        # on the widget slider
+        NBelev = NB.values[slide.value]
+        PAelev = PA.values[slide.value]
+        PTelev = PT.values[slide.value]
+        # Create dummy x-values
+        x = (1, 2, 3)
+        y = (NBelev, PAelev, PTelev)
+        # Create the figure with station labels
+        plt.scatter(x, y, s=100, color="red", zorder=2)
+        plt.plot(x, y, 'b', zorder=1)
+        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
+                   rotation='vertical')
+        plt.grid()
+        plt.ylabel('Tidal Elevation (m)')
+    except:
+        return None
+
 
 
 
