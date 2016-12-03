@@ -139,28 +139,23 @@ def plot_tide_data(Tides,time1,time2):
              PA=widgets.fixed(PA),PT=widgets.fixed(PT),dt=slide)
 
 
-def plot_tidal_elevation(NB,PA,PT,dt):
-    """
-    Function to plot the tidal elevation taken from
-    the function plot_tide_data interactive slider
-    """
+def plot_tidal_elevation(NB,PA,PT,slide):
     try:
-        fig, axes = plt.subplots(nrows=1, ncols=1)
-        # Get each station's tidal elevation based 
-        # on the widget slider
-        NBelev = NB.values[dt.values]
-        PAelev = PA.values[dt.values]
-        PTelev = PT.values[dt.values]
+        # Create a figure with 3 rows & 1 column
+        fig, axes = plt.subplots(nrows=1,ncols=1)
+        # Get each station's tidal elevation based on the widget slider
+        NBelev = NB.values[slide]
+        PAelev = PA.values[slide]
+        PTelev = PT.values[slide]
         # Create dummy x-values
-        x = (1, 2, 3)
-        y = (NBelev, PAelev, PTelev)
+        x=(1,2,3)
+        y=(NBelev,PAelev,PTelev)
         # Create the figure with station labels
-        axes.scatter(x, y, s=100, color="red", zorder=2)
-        axes.plot(x, y, 'b', zorder=1)
-        axes.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
-                   rotation='vertical')
-        axes.grid()
-        axes.ylabel('Tidal Elevation (m)')
+        plt.scatter(x,y,s=100,color="red",zorder=2)
+        plt.plot(x,y,'b',zorder=1)
+        plt.xticks(x,['Neah Bay','Port Angeles','Port Townsend'],rotation='vertical')
+        plt.grid()
+        plt.ylabel('Tidal Elevation (m)')
     except:
         return None
 
@@ -175,21 +170,17 @@ def plot_tide_time_series(NB,PA,PT,dt):
         PA - Port Angeles tide DataArray
         PT - Port Townsend tide DataArray
     """
-    import tide_utils as tide
     fig, axes = plt.subplots(nrows=3)
     NB.plot(ax=axes[0])
-    axes[0].scatter(x=NB.datetime.values[dt], y=NB.values[dt],
-                    color="red", s=100)
+    axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
     axes[0].grid()
 
     PA.plot(ax=axes[1])
-    axes[1].scatter(x=NB.datetime.values[dt], y=PA.values[dt],
-                    color="red", s=100)
+    axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
     axes[1].grid()
 
     PT.plot(ax=axes[2])
-    axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
-                    color="red", s=100)
+    axes[2].scatter(x=NB.datetime.values[dt],y=PT.values[dt],color="red",s=100)
     axes[2].grid()
     
     plot_tidal_elevation(NB,PA,PT,dt)
