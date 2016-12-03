@@ -148,9 +148,9 @@ def plot_tidal_elevation(NB,PA,PT,dt):
         fig, axes = plt.subplots(nrows=1, ncols=1)
         # Get each station's tidal elevation based 
         # on the widget slider
-        NBelev = NB.values[dt]
-        PAelev = PA.values[dt]
-        PTelev = PT.values[dt]
+        NBelev = NB.values[dt.values]
+        PAelev = PA.values[dt.values]
+        PTelev = PT.values[dt.values]
         # Create dummy x-values
         x = (1, 2, 3)
         y = (NBelev, PAelev, PTelev)
