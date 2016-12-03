@@ -155,12 +155,12 @@ def plot_tidal_elevation(NB,PA,PT,dt):
         x = (1, 2, 3)
         y = (NBelev, PAelev, PTelev)
         # Create the figure with station labels
-        plt.scatter(x, y, s=100, color="red", zorder=2)
-        plt.plot(x, y, 'b', zorder=1)
-        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
+        axes.scatter(x, y, s=100, color="red", zorder=2)
+        axes.plot(x, y, 'b', zorder=1)
+        axes.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
                    rotation='vertical')
-        plt.grid()
-        plt.ylabel('Tidal Elevation (m)')
+        axes.grid()
+        axes.ylabel('Tidal Elevation (m)')
     except:
         return None
 
