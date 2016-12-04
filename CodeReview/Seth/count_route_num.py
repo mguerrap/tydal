@@ -14,7 +14,11 @@ def count_route_num(ferryQc):
             ferryQc - xarray DataSet object with the ferry data, now with
                       the added variable, xing_num
     """
+<<<<<<< HEAD
 #Use """ """ for comments
+=======
+
+>>>>>>> b43f01d7d889ed187b5fcf42defe0930a559c23d
     #Define on-route box 
     pt1 = (48.134302, -122.758195)
     pt2 = (48.172176, -122.698912)
@@ -46,4 +50,8 @@ def count_route_num(ferryQc):
     xing_num = xr.DataArray(xing_num, coords=ferryQc.time.indexes, dims=['time'])
     ferryQc['xing_num'] = xing_num
     
+<<<<<<< HEAD
     return(ferryQc)
+=======
+    return(ferryQc)
+>>>>>>> b43f01d7d889ed187b5fcf42defe0930a559c23d
