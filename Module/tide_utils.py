@@ -153,7 +153,8 @@ def plot_tidal_elevation(NB,PA,PT,slide):
         # Create the figure with station labels
         plt.scatter(x,y,s=100,color="red",zorder=2)
         plt.plot(x,y,'b',zorder=1)
-        plt.xticks(x,['Neah Bay','Port Angeles','Port Townsend'],rotation='vertical')
+        plt.xticks(x,['Neah Bay', 'Port Angeles', 'Port Townsend'],
+                   rotation='vertical')
         plt.grid()
         plt.ylabel('Tidal Elevation (m)')
     except:
@@ -174,6 +175,7 @@ def plot_tide_time_series(NB,PA,PT,dt):
     NB.plot(ax=axes[0])
     axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
     axes[0].grid()
+    axes[0].set_title('Tidal Elevation (m)')
 
     PA.plot(ax=axes[1])
     axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
