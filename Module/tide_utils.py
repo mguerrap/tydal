@@ -171,24 +171,21 @@ def plot_tide_time_series(NB,PA,PT,dt):
         PA - Port Angeles tide DataArray
         PT - Port Townsend tide DataArray
     """
-    try:
-        fig, axes = plt.subplots(nrows=3)
-        NB.plot(ax=axes[0])
-        axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
-        axes[0].grid()
-        axes[0].set_title('Tidal Elevation (m)')
+    fig, axes = plt.subplots(nrows=3)
+    NB.plot(ax=axes[0])
+    axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
+    axes[0].grid()
+    axes[0].set_title('Tidal Elevation (m)')
 
-        PA.plot(ax=axes[1])
-        axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
-        axes[1].grid()
+    PA.plot(ax=axes[1])
+    axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
+    axes[1].grid()
 
-        PT.plot(ax=axes[2])
-        axes[2].scatter(x=NB.datetime.values[dt],y=PT.values[dt],color="red",s=100)
-        axes[2].grid()
+    PT.plot(ax=axes[2])
+    axes[2].scatter(x=NB.datetime.values[dt],y=PT.values[dt],color="red",s=100)
+    axes[2].grid()
     
-        plot_tidal_elevation(NB,PA,PT,dt)
-    except:
-        return None
+    plot_tidal_elevation(NB,PA,PT,dt)
 
 
 

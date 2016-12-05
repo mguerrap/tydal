@@ -28,8 +28,14 @@ The project has the following structure:
 			Module2.ipynb
 			Module3.ipynb
 		tydal/
+			MoonCycleDates.py
+			data_get_year.py
+			tide_utils.py
+			ferry_data_utils.py
+			data_get_2014.py
+			module3_utils.py
 			functions.py
-			init.py
+			__init__.py
 		Figures/
 			Earth_Moon_Tides_Real.jpg
 			SunMoon_Full.jpg
