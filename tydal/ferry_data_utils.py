@@ -78,19 +78,19 @@ def count_route_num(ferryQc):
 	p = path.Path([pt1, pt2, pt3, pt4])
 
 	#check all lat/lon to be on or off route
-	on_route = p.contains_points( list(zip(ferry_small.latitude.values, 
-										   ferry_small.longitude.values)) );
+	on_route = p.contains_points( list(zip(ferryQc.latitude.values, 
+										   ferryQc.longitude.values)) );
 
 	#initialize vars
 	counter = 0;
-	xing_num = np.empty((ferry_small.time.size), dtype=int)
+	xing_num = np.empty((ferryQc.time.size), dtype=int)
 
 	#Loop through all time values. If off route, give a -9 flag
 	# if on route, give it a route number. If it switches from off route to
 	# on route, increase the route number
-	for ii in range(1, ferry_small.time.size):
-	    lat = ferry_small.latitude[ii].values
-	    lon = ferry_small.longitude[ii].values
+	for ii in range(1, ferryQc.time.size):
+	    lat = ferryQc.latitude[ii].values
+	    lon = ferryQc.longitude[ii].values
 	    
 	    if not(on_route[ii]):
 	        xing_num[ii] = -9
@@ -99,7 +99,6 @@ def count_route_num(ferryQc):
 	    if  (on_route[ii] and not(on_route[ii-1])):
 	        counter = counter+1
 
-	xing_num = xr.DataArray(xing_num, coords=ferry_small.time.indexes, dims=['time'])
-	ferry_small['xing_num'] = xing_num
-
-    return(ferryQc)
+	xing_num = xr.DataArray(xing_num, coords=ferryQc.time.indexes, dims=['time'])
+	ferryQc['xing_num'] = xing_num
+	return(ferryQc)
