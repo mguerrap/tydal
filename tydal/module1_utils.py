@@ -3,6 +3,42 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 
+def load_tide_station_data(station=["NeahBay", "PortTownsend", "PortAngeles"]):
+    """
+    This function reads the csv files containing the tidal elevation data
+
+    Parameters:
+    ---------------
+    station - list of strings.   Default = ["NeahBay", "PortTownsend", "PortAngeles"]
+        A list containing the station name(s). 
+
+    Output:
+    ----------------
+    This function returns a list containing dataframe objects
+    """
+    
+    # Empty list and dataframe for data assembly
+    data_list = []
+    data = pd.DataFrame()
+    # List of years that we have already downloaded data for
+    years = ["2014", "2015", "2016"]
+    # Iterate through station list
+    for stat in station:
+        # Iterate through year list
+        for year in years:
+            # Assemble filename
+            filename = "./Data/" + year + "_" + stat + ".csv"
+            # Read in first file
+            temp = pd.read_csv(filename, parse_dates=["Date Time"])
+            # append to data repeat for next years
+            data = data.append(temp)
+        # Append station data to data_list
+        data_list.append(data)
+        # Reset data for next station
+        data = pd.DataFrame()
+    return data_list
+
+
 def trim_data(data, start, end):
     """
     This function takes in a dataframe object and trims it to the two supplied
