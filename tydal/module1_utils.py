@@ -32,6 +32,8 @@ def load_tide_station_data(station=["NeahBay", "PortTownsend", "PortAngeles"]):
             temp = pd.read_csv(filename, parse_dates=["Date Time"])
             # append to data repeat for next years
             data = data.append(temp)
+        # Remove excess column in data
+        data.drop(data.columns[[0]], axis=1, inplace=True)
         # Append station data to data_list
         data_list.append(data)
         # Reset data for next station
@@ -66,7 +68,8 @@ def trim_data(data, start, end):
     return subset
 
 
-def tidal_plot(data, start_time, end_time, title="Tidal Elevation"):
+def tidal_plot(data, start_time, end_time, title="Tidal Elevation",
+               sized=(12,6)):
     """
     This function takes in a dataframe object, a start and end time, and a time
     index.  It generates a plot from start to end of tidal elevation from data.
@@ -88,6 +91,9 @@ def tidal_plot(data, start_time, end_time, title="Tidal Elevation"):
     title - string
         A string to be the title of the generated plot
 
+    sized - touple
+        A touple to be the size of the generated figure (width, height)
+
 
     OUTPUT
     ------------------
@@ -98,8 +104,9 @@ def tidal_plot(data, start_time, end_time, title="Tidal Elevation"):
     subset = trim_data(data, start_time, end_time)
     f = plt.figure()
     plt.style.use("ggplot")
-    plt.xlabel("Time of Day")
-    plt.ylabel("Water Height")
+    plt.subplots(figsize=sized)
+    plt.xlabel("Time of Day (GMT)")
+    plt.ylabel("Water Height (ft)")
     plt.title(title)
     plt.plot(subset["Date Time"], subset["Water Level"])
     plt.show()
