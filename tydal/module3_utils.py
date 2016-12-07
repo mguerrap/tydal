@@ -21,8 +21,6 @@ def plt_tide(pt_tide, time_index, start_date, end_date):
         OUTPUTS: A matplotlib subplot with tidal elevations, and a vertical marker
                  at the location specified in time_index
     """
-
-    plt.style.use('ggplot')
     
     #sub_selected time for vertical bar, as chosen by time_index
     time = pt_tide[start_date:end_date].index[time_index];
@@ -62,7 +60,7 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
     valid_xings = np.arange(min_xing, max_xing, 2)
     
     #check cross_index is in range
-    if not(any( ferry_subsample.xing_num.values == valid_xings[crossing_index] )) or (crossing_index > valid_xings.size):
+    if (crossing_index > valid_xings.size):
         print('Invalid Ferry Xing index')
         print(str(valid_xings.size) +' number of crossings for the chosen date range')
         return
@@ -80,7 +78,7 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
     #   ferry data
     pt_time_val = pt_time_index.searchsorted( mid_ferry_time )
     
-    fig, axes = plt.subplots(nrows=2, ncols=1)
+    fig, axes = plt.subplots(nrows=2, ncols=1, figsize={10, 4})
     #plot tidal elevations 
 
     plt.sca(axes[0])
@@ -97,12 +95,15 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
         ferry_subsample.Horizontal_speed[plt_index].plot(x='time', y='depth')
     else:
         print('All NaN speed values')
-    plt.gca().invert_yaxis()
     
     #plot bottom track
     ferry_subsample.bottom_tracking_depth_beam_1[plt_index].plot()
+
+    #format axes
+    plt.gca().invert_yaxis()
     plt.ylabel('Depth [m]')
-    
+    plt.clim(0,3)
+
     #format xticks
-    xfmt = md.DateFormatter('%m-%d %H:%M:%S')
+    xfmt = md.DateFormatter('%m-%d %H:%M')
     axes[1].xaxis.set_major_formatter(xfmt)
