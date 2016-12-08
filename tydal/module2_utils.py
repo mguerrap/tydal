@@ -118,7 +118,7 @@ def create_tide_dataset(NeahBay, PortAngeles, PortTownsend):
     return Tides
 
 
-def plot_tide_data(Tides,time1,time2):
+def plot_tide_data(Tides, time1, time2):
     """
     Function that allows to pass through variables to
     the interactive widget.
@@ -130,30 +130,30 @@ def plot_tide_data(Tides,time1,time2):
     from ipywidgets import interact
     import ipywidgets as widgets
 
-    NB = Tides.NeahBay.sel(datetime=slice(time1,time2))
-    PA = Tides.PortAngeles.sel(datetime=slice(time1,time2))
-    PT = Tides.PortTownsend.sel(datetime=slice(time1,time2))
+    NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
+    PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
+    PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
 
-    slide = widgets.IntSlider(1,1,len(NB.datetime.values)-1)
-    interact(plot_tide_time_series,NB=widgets.fixed(NB),
-             PA=widgets.fixed(PA),PT=widgets.fixed(PT),dt=slide)
+    slide = widgets.IntSlider(1, 1, len(NB.datetime.values)-1)
+    interact(plot_tide_time_series, NB=widgets.fixed(NB),
+             PA=widgets.fixed(PA), PT=widgets.fixed(PT), dt=slide)
 
 
-def plot_tidal_elevation(NB,PA,PT,slide):
+def plot_tidal_elevation(NB, PA, PT, slide):
     try:
         # Create a figure with 3 rows & 1 column
-        fig, axes = plt.subplots(nrows=1,ncols=1)
+        fig, axes = plt.subplots(nrows=1, ncols=1)
         # Get each station's tidal elevation based on the widget slider
         NBelev = NB.values[slide]
         PAelev = PA.values[slide]
         PTelev = PT.values[slide]
         # Create dummy x-values
-        x=(1,2,3)
-        y=(NBelev,PAelev,PTelev)
+        x = (1,2,3)
+        y = (NBelev, PAelev, PTelev)
         # Create the figure with station labels
-        plt.scatter(x,y,s=100,color="red",zorder=2)
-        plt.plot(x,y,'b',zorder=1)
-        plt.xticks(x,['Neah Bay', 'Port Angeles', 'Port Townsend'],
+        plt.scatter(x, y, s=100, color="red", zorder=2)
+        plt.plot(x, y, 'b', zorder=1)
+        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
                    rotation='vertical')
         plt.grid()
         plt.ylabel('Tidal Elevation (m)')
@@ -161,7 +161,7 @@ def plot_tidal_elevation(NB,PA,PT,slide):
         return None
 
 
-def plot_tide_time_series(NB,PA,PT,dt):
+def plot_tide_time_series(NB, PA, PT, dt):
     """
     This function plots the three tidal stations for the given
     time period along with a marker showing the time and elevation
@@ -174,19 +174,22 @@ def plot_tide_time_series(NB,PA,PT,dt):
     try:
         fig, axes = plt.subplots(nrows=3)
         NB.plot(ax=axes[0])
-        axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
+        axes[0].scatter(x=NB.datetime.values[dt], y=NB.values[dt],
+                        color="red", s=100)
         axes[0].grid()
         axes[0].set_title('Tidal Elevation (m)')
 
         PA.plot(ax=axes[1])
-        axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
+        axes[1].scatter(x=NB.datetime.values[dt], y=PA.values[dt],
+                        color="red", s=100)
         axes[1].grid()
 
         PT.plot(ax=axes[2])
-        axes[2].scatter(x=NB.datetime.values[dt],y=PT.values[dt],color="red",s=100)
+        axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
+                        color="red", s=100)
         axes[2].grid()
     
-        plot_tidal_elevation(NB,PA,PT,dt)
+        plot_tidal_elevation(NB, PA, PT, dt)
     except:
         return None
 
@@ -213,8 +216,3 @@ def add_station_maps():
         return m
     except ImportError:
     	raise ImportError('Please install gmaps package')
-
-
-
-
-
