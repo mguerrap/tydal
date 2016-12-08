@@ -191,6 +191,30 @@ def plot_tide_time_series(NB,PA,PT,dt):
         return None
 
 
+def add_station_maps():
+    """
+    This function displays a google map of the
+    locations of the three stations with the
+    tidal data
+    """
+    # Put in the locations of the tidal stations
+    NB = [48 + 22.2/60, -(124 + 36.1/60)]
+    PA = [48 + 7.5/60, -(123 + 26.5/60)]
+    PT = [48 + 6.8/60, -(122 + 45.6/60)]
+    latlon = [tuple(NB), tuple(PA), tuple(PT)]
+    # Generate the google map
+    try:
+        import gmaps
+        gmaps.configure(api_key=
+                        "AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q")
+        m = gmaps.Map()
+        markers = gmaps.marker_layer(latlon)
+        m.add_layer(markers)
+        return m
+    except ImportError:
+    	raise ImportError('Please install gmaps package')
+
+
 
 
 
