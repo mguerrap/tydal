@@ -148,7 +148,7 @@ def plot_tidal_elevation(NB, PA, PT, slide):
         PAelev = PA.values[slide]
         PTelev = PT.values[slide]
         # Create dummy x-values
-        x = (1,2,3)
+        x = (1, 2, 3)
         y = (NBelev, PAelev, PTelev)
         # Create the figure with station labels
         plt.scatter(x, y, s=100, color="red", zorder=2)
@@ -188,7 +188,7 @@ def plot_tide_time_series(NB, PA, PT, dt):
         axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
                         color="red", s=100)
         axes[2].grid()
-    
+
         plot_tidal_elevation(NB, PA, PT, dt)
     except:
         return None
@@ -215,4 +215,4 @@ def add_station_maps():
         m.add_layer(markers)
         return m
     except ImportError:
-    	raise ImportError('Please install gmaps package')
+        raise ImportError('Please install gmaps package')
