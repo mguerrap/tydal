@@ -37,9 +37,7 @@ def load_Port_Townsend(datadir):
     data are saved. Returns None if files are not located in
     specified directory.
     """
-    if not glob.glob(os.path.join(datadir, '*PortTownsend.csv')):
-        return None
-    else:
+    try:
         PortTownsend_2014 = pd.read_csv(datadir +
                                         '2014_PortTownsend.csv',
                                         parse_dates=['Date Time'],
@@ -56,7 +54,9 @@ def load_Port_Townsend(datadir):
         PortTownsend = PortTownsend.append(PortTownsend_2016)
         PortTownsend.index.rename('datetime', inplace=True)
         return PortTownsend
-
+    except FileNotFoundError:
+        return None
+        
 
 def load_Port_Angeles(datadir):
     """
@@ -65,9 +65,7 @@ def load_Port_Angeles(datadir):
     data are saved. Returns None if files are not located in
     specified directory.
     """
-    if not glob.glob(os.path.join(datadir, '*PortAngeles.csv')):
-        return None
-    else:
+    try:
         # Load the Port Angeles tidal data and put into one dataframe
         PortAngeles_2014 = pd.read_csv(datadir +
                                        '2014_PortAngeles.csv',
@@ -85,6 +83,8 @@ def load_Port_Angeles(datadir):
         PortAngeles = PortAngeles.append(PortAngeles_2016)
         PortAngeles.index.rename('datetime', inplace=True)
         return PortAngeles
+    except:
+        return None
 
 
 def load_tide_data(datadir):
@@ -130,16 +130,36 @@ def plot_tide_data(Tides, time1, time2):
         time1 - start time to slice the tidal data
         time2 - end time to slice the tidal data
     """
-    from ipywidgets import interact
-    import ipywidgets as widgets
+    import numpy as np
+    tmin = np.array([NB.datetime.values.min(),
+                    PA.datetime.values.min(),
+                    PT.datetime.values.min()]).min()
+    tmax = np.array([NB.datetime.values.max(),
+                    PA.datetime.values.max(),
+                    PT.datetime.values.max()]).max()
+    if time2 < tmin:
+        raise IndexError('Selected times are below available range.')
+    elif time1 > tmax:
+        raise IndexError('Selected times are above available range.')
+    else:
+        try:
+            from ipywidgets import interact
+            import ipywidgets as widgets
 
-    NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
-    PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
-    PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
+            NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
+            PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
+            PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
 
-    slide = widgets.IntSlider(1, 1, len(NB.datetime.values)-1)
-    interact(plot_tide_time_series, NB=widgets.fixed(NB),
-             PA=widgets.fixed(PA), PT=widgets.fixed(PT), dt=slide)
+            slide = widgets.IntSlider(1, 1,
+                                      len(NB.datetime.values)-1)
+            interact(plot_tide_time_series, NB=widgets.fixed(NB),
+                     PA=widgets.fixed(PA), PT=widgets.fixed(PT),
+                     dt=slide)
+        except TraitError:
+            raise TraitError
+        except ImportError:
+            raise ImportError("Please install ipywidgets")
+
 
 
 def plot_tidal_elevation(NB, PA, PT, slide):
