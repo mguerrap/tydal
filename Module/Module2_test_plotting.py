@@ -28,3 +28,6 @@ class TestDataPlotting(unittest.TestCase):
         # Don't load all of the Data Arrays
         Tides = tides.create_tide_dataset(NB, PA, None)
         self.assertTrue(Tides == None)
+
+if __name__ == '__main__':
+    unittest.main()
