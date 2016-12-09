@@ -10,9 +10,9 @@ class TestDataPlotting(unittest.TestCase):
      #   stamap = tides.add_station_maps()
       #  self.assertIs(type(stamap), gmaps.maps.Map)
 
-    def testGoogleMapsfails(self):
-        stamap = tides.add_station_maps(API="Stuff")
-        self.assertTrue(stamap == None)
+    #def testGoogleMapsfails(self):
+     #   stamap = tides.add_station_maps(API="Stuff")
+      #  self.assertTrue(stamap == None)
 
     def testCreateTideDataset(self):
         # Generate the tidal dataset
