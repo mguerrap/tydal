@@ -110,12 +110,15 @@ def create_tide_dataset(NeahBay, PortAngeles, PortTownsend):
     Function takes in the tidal station dataframes and returns
     an Xarray Dataset with the tidal station data
     """
-    NB = xr.DataArray(NeahBay['Water Level'], dims='datetime')
-    PA = xr.DataArray(PortAngeles['Water Level'], dims='datetime')
-    PT = xr.DataArray(PortTownsend['Water Level'], dims='datetime')
-    Tides = xr.Dataset({'NeahBay': NB, 'PortAngeles': PA,
-                       'PortTownsend': PT})
-    return Tides
+    try:
+        NB = xr.DataArray(NeahBay['Water Level'], dims='datetime')
+        PA = xr.DataArray(PortAngeles['Water Level'], dims='datetime')
+        PT = xr.DataArray(PortTownsend['Water Level'], dims='datetime')
+        Tides = xr.Dataset({'NeahBay': NB, 'PortAngeles': PA,
+                           'PortTownsend': PT})
+        return Tides
+    except:
+        return None
 
 
 def plot_tide_data(Tides, time1, time2):
@@ -208,10 +211,12 @@ def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
     # Generate the google map
     try:
         import gmaps
-        gmaps.configure(api_key=API)
-        m = gmaps.Map()
-        markers = gmaps.marker_layer(latlon)
-        m.add_layer(markers)
-        return m
     except ImportError:
         raise ImportError('Please install gmaps package')
+
+    gmaps.configure(api_key=API)
+    m = gmaps.Map()
+    markers = gmaps.marker_layer(latlon)
+    m.add_layer(markers)
+    return m
+    
