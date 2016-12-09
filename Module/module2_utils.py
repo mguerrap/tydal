@@ -13,7 +13,7 @@ def load_Neah_Bay(datadir):
     Datadir is the directory path to where the data is located
     """
     try:
-    	NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
+        NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
                                    parse_dates=['Date Time'],
                                    index_col=['Date Time'])
         NeahBay_2015 = pd.read_csv(datadir + "2015_NeahBay.csv",
