@@ -34,4 +34,4 @@ class TestDataPlotting(unittest.TestCase):
         self.assertTrue(Tides == None)
 
 if __name__ == '__main__':
-    punittest.main()
+    unittest.main()
