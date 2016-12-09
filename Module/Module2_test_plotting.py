@@ -27,4 +27,4 @@ class TestDataPlotting(unittest.TestCase):
         PT = None
         # Don't load all of the Data Arrays
         Tides = tides.create_tide_dataset(NB, PA, None)
-        self.assertTrue(if Tides is None)
+        self.assertTrue(Tides == None)
