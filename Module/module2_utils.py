@@ -194,7 +194,7 @@ def plot_tide_time_series(NB, PA, PT, dt):
         return None
 
 
-def add_station_maps():
+def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
     """
     This function displays a google map of the
     locations of the three stations with the
@@ -208,8 +208,7 @@ def add_station_maps():
     # Generate the google map
     try:
         import gmaps
-        gmaps.configure(api_key=
-                        "AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q")
+        gmaps.configure(api_key=API)
         m = gmaps.Map()
         markers = gmaps.marker_layer(latlon)
         m.add_layer(markers)
