@@ -37,7 +37,7 @@ class TestDataLoading(unittest.TestCase):
 
     def testPortTownsendloads(self):
         PT = tides.load_Port_Townsend('../Data/')
-        self.assertIs(type(PT)pandas.core.frame.DataFrame)
+        self.assertIs(type(PT),pandas.core.frame.DataFrame)
 
 
 if __name__ == '__main__':
