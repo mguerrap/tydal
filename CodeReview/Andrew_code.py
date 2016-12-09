@@ -5,7 +5,7 @@ import xarray as xr
 import matplotlib.pyplot as plt
 
 
-def load_Neah_Bay(datadir):
+def load_Neah_Bay(datadir="../Data"):
     """
     Function to load the Neah Bay tidal station data from 2015 - 2016
     and returns a dataframe and a Datetime Index object

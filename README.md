@@ -1,29 +1,54 @@
-# Current Discovery
+# Tydal
 
-Current Discovery is a project that is inteded as a learning tool.  It
+Tydal is a project that is inteded as a learning tool.  It
 explores tides and the currents associated with tides.
 
 ## Organization of the project
 The project has the following structure:
 
-	CurrentDiscovery/
+	tydal/
 		README.md
 		LICENSE.md
 		UseCases.md
-		data/
-			tides.csv
-			ferry.csv
-		doc/
-			Makefile
-			conf.py
-			sphinxext/
-				...
-			_static/
-				...
-		setup.py
-		.travis.yml
-		ipynb/
-			...
+		DataSetDescription.md
+		.gitignore
+		Data/
+			2014_NeahBay.csv
+			2015_NeahBay.csv
+			2016_NeahBay.csv
+			2014_PortTownsend.csv
+			2015_PortTownsend.csv
+			2016_PortTownsend.csv
+			2014_PortAngeles.csv
+			2015_PortAngeles.csv
+			2016_PortAngeles.csv
+			SemiDiurnalTides.csv
+		Module1_Tides.ipynb
+		Module2.ipynb
+		Module3_TidalCurrents.ipynb
+		tydal/
+			MoonCycleDates.py
+			data_get_year.py
+			tide_utils.py
+			ferry_data_utils.py
+			data_get_2014.py
+			module3_utils.py
+			functions.py
+			__init__.py
+		Figures/
+			Earth_Moon_Tides_Real.jpg
+			SunMoon_Full.jpg
+			Earth_Moon_Tides_Simple.jpg
+			SunMoon_Third.jpg
+			FirstQuarter.jpg
+			SunMoon_sum.jpg
+			FullMoon.jpg
+			ThirdQuarter.jpg
+			MapOfStations.jpg
+			TidalBulge.jpg
+			NewMoon.jpg
+		analysis/
+		tests/
 
 ******************************************************************************
 MIT license:
