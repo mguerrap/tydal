@@ -2,8 +2,8 @@ import unittest
 import pandas
 import module2_utils as tides
 
-class TestDataPlotting(unittest.TestCase):
 
+class TestDataPlotting(unittest.TestCase):
 
     def testGoogleMapworks(self):
         # Check that I can load the google map of the stations
@@ -16,9 +16,9 @@ class TestDataPlotting(unittest.TestCase):
         PA = tides.load_Port_Angeles('../Data/')
         PT = tides.load_Port_Townsend('../Data/')
         # Create the XArray dataset
-        Tides = tides.create_tide_dataset(NB,PA,PT)
+        Tides = tides.create_tide_dataset(NB, PA, PT)
         # Check that it is an xarray DataSet
-        self.assertIs(type(Tides),xarray.core.dataset.Dataset)
+        self.assertIs(type(Tides), xarray.core.dataset.Dataset)
 
     def testTideDatasetfails(self):
     	# Generate the tidal dataset
@@ -26,5 +26,5 @@ class TestDataPlotting(unittest.TestCase):
         PA = tides.load_Port_Angeles('../Data/')
         PT = None
         # Don't load all of the Data Arrays
-        Tides = tides.create_tide_dataset(NB,PA,None)
-        self.assertTrue(Tides == None)
+        Tides = tides.create_tide_dataset(NB, PA, None)
+        self.assertTrue(if Tides is None)
