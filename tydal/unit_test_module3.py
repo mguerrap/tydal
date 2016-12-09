@@ -2,22 +2,29 @@ import unittest
 import module3_utils as m3
 import tide_utils as tu
 
-class TestModule3Utils(unittest.TestCase):
+
+#class TestCurrentModel(unittest.TestCase):
+
+#class TestFerryImport(unittest.TestCase):
+
+class TestFerryPloting(unittest.TestCase):
+
+    def setUp(self):
+        # import tides
+        pt_tide = tu.load_Port_Townsend('../Data/')
+        self.pt_tide = pt_tide['Water Level']
+
+        # define dates
+        self.start_time = '2016-10-01'
+        self.end_time = '2016-11-01'
+        self.time_index = 50000
 
     # Test tide plotting subfunction
     def test_plt_tide(self):
-        # import tides
-        pt_tide = tu.load_Port_Townsend('../Data/')
-        pt_tide = pt_tide['Water Level']
-
-        # define dates
-        start = '2016-10-01'
-        end = '2016-11-01'
-        time_index = 50000
-
         # Assert time_index is too large
         with self.assertRaises(ValueError):
-            m3.plt_tide(pt_tide, time_index, start, end)
+            m3.plt_tide(self.pt_tide, self.time_index,
+                        self.start_time, self.end_time)
 
 
     # # Test tide plotting subfunction
