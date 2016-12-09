@@ -27,7 +27,7 @@ def load_Neah_Bay(datadir):
         NeahBay.index.rename('datetime', inplace=True)
         return NeahBay
     except FileNotFoundError:
-    	raise FileNotFoundError('Check data directory')
+        raise FileNotFoundError('Check data directory')
 
 
 def load_Port_Townsend(datadir):
