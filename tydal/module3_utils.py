@@ -100,7 +100,7 @@ def ferry_data_download(URL):
         print('File not found or unavailable')
         explanation = ' File not found or unavailable'
         file_downloaded = False
-    return (file_downloaded, explanation)
+    return (ferry, file_downloaded, explanation)
 
 
 def ferry_data_QC(ferry, TH_abs, TH_u, TH_d):
