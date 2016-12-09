@@ -12,10 +12,8 @@ def load_Neah_Bay(datadir):
     and returns a dataframe and a Datetime Index object
     Datadir is the directory path to where the data is located
     """
-    if not glob.glob(os.path.join(datadir, '*NeahBay.csv')):
-        return None
-    else:
-        NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
+    try:
+    	NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
                                    parse_dates=['Date Time'],
                                    index_col=['Date Time'])
         NeahBay_2015 = pd.read_csv(datadir + "2015_NeahBay.csv",
@@ -28,6 +26,8 @@ def load_Neah_Bay(datadir):
         NeahBay = NeahBay.append(NeahBay_2016)
         NeahBay.index.rename('datetime', inplace=True)
         return NeahBay
+    except FileNotFoundError:
+    	raise FileNotFoundError('Check data directory')
 
 
 def load_Port_Townsend(datadir):
