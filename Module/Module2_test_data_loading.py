@@ -30,5 +30,15 @@ class TestDataLoading(unittest.TestCase):
         self.assertIs(type(PA),pandas.core.frame.DataFrame)
 
 
+    def testPortTownsendfails(self):
+    	PT = tides.load_Port_Townsend('Bad Directory')
+    	self.assertTrue(PT == None)
+
+
+    def testPortTownsendloads(self):
+        PT = tides.load_Port_Townsend('../Data/')
+        self.assertIs(type(PT)pandas.core.frame.DataFrame)
+
+
 if __name__ == '__main__':
     unittest.main()
