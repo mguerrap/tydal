@@ -133,9 +133,9 @@ def plot_tide_data(Tides, time1, time2):
     import numpy as np
     tmin = np.array(Tides.datetime.values.min())
     tmax = np.array(Tides.datetime.values.max())
-    if time2 < tmin:
+    if np.datetime64(time2) < tmin:
         raise IndexError('Selected times are below available range.')
-    elif time1 > tmax:
+    elif np.datetime64(time1) > tmax:
         raise IndexError('Selected times are above available range.')
     else:
         try:
