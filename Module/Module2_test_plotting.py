@@ -43,5 +43,24 @@ class TestDataPlotting(unittest.TestCase):
         self.assertRaises(IndexError, tides.plot_tide_data, Tides,
                              '2012','2013')
 
+    def testPlotTideDataIndexFails2(self):
+        NB = tides.load_Neah_Bay('../Data/')
+        PA = tides.load_Port_Angeles('../Data/')
+        PT = tides.load_Port_Townsend('../Data/')
+        # Create the XArray dataset
+        Tides = tides.create_tide_dataset(NB, PA, PT)
+        self.assertRaises(IndexError, tides.plot_tide_data, Tides,
+                             '2017','2018')
+
+    def testPlotTideDataSlider(self):
+        NB = tides.load_Neah_Bay('../Data/')
+        PA = tides.load_Port_Angeles('../Data/')
+        PT = tides.load_Port_Townsend('../Data/')
+        # Create the XArray dataset
+        Tides = tides.create_tide_dataset(NB, PA, PT)
+        self.assertRaises(TraitError, tides.plot_tide_data, Tides,
+                             '2016','2015')
+
+
 if __name__ == '__main__':
     unittest.main()
