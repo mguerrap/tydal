@@ -153,8 +153,6 @@ def plot_tide_data(Tides, time1, time2):
             interact(plot_tide_time_series, NB=widgets.fixed(NB),
                      PA=widgets.fixed(PA), PT=widgets.fixed(PT),
                      dt=slide)
-        except TraitError:
-            raise TraitError
         except ImportError:
             raise ImportError("Please install ipywidgets")
 
