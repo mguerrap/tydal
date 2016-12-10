@@ -23,10 +23,9 @@ The project has the following structure:
 			2015_PortAngeles.csv
 			2016_PortAngeles.csv
 			SemiDiurnalTides.csv
-		Module/
-			Module1_Tides.ipynb
-			Module2.ipynb
-			Module3.ipynb
+		Module1_Tides.ipynb
+		Module2.ipynb
+		Module3_TidalCurrents.ipynb
 		tydal/
 			MoonCycleDates.py
 			data_get_year.py
