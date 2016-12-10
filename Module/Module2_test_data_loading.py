@@ -3,7 +3,7 @@ import pandas
 import module2_utils as tides
 
 
-class TestDataLoading(unittest.TestCase):
+class TestModule2(unittest.TestCase):
 
     # Testing the station map
     def testNeahBayfails(self):
