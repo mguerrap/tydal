@@ -131,12 +131,12 @@ def plot_tide_data(Tides, time1, time2):
         time2 - end time to slice the tidal data
     """
     import numpy as np
-    tmin = np.array([NB.datetime.values.min(),
-                    PA.datetime.values.min(),
-                    PT.datetime.values.min()]).min()
-    tmax = np.array([NB.datetime.values.max(),
-                    PA.datetime.values.max(),
-                    PT.datetime.values.max()]).max()
+    tmin = np.array([Tides.NB.datetime.values.min(),
+                    Tides.PA.datetime.values.min(),
+                    TIdes.PT.datetime.values.min()]).min()
+    tmax = np.array([Tides.NB.datetime.values.max(),
+                    Tides.PA.datetime.values.max(),
+                    Tides.PT.datetime.values.max()]).max()
     if time2 < tmin:
         raise IndexError('Selected times are below available range.')
     elif time1 > tmax:
@@ -231,12 +231,14 @@ def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
     # Generate the google map
     try:
         import gmaps
+        gmaps.configure(api_key=API)
+        m = gmaps.Map()
+        markers = gmaps.marker_layer(latlon)
+        m.add_layer(markers)
+        return m
     except ImportError:
         raise ImportError('Please install gmaps package')
-
-    gmaps.configure(api_key=API)
-    m = gmaps.Map()
-    markers = gmaps.marker_layer(latlon)
-    m.add_layer(markers)
-    return m
+    else:
+        return None
+    
     
