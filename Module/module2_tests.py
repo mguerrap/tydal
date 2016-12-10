@@ -3,16 +3,36 @@ import pandas
 import module2_utils as tides
 
 
-class TestDataPlotting(unittest.TestCase):
+class TestModule2(unittest.TestCase):
 
-    #def testGoogleMapworks(self):
-    #    import gmaps
-    # Check that I can load the google map of the stations
-    #    stamap = tides.add_station_maps()
-    #    self.assertIs(type(stamap), gmaps.maps.Map)
-    #def testGoogleMapsfails(self):
-    #   stamap = tides.add_station_maps(API="Stuff")
-    #  self.assertTrue(stamap == None)
+    # Testing the station map
+    def testNeahBayfails(self):
+        # Check that the data can't be loaded
+        NB = tides.load_Neah_Bay('Bad Directory')
+        self.assertTrue(NB == None)
+
+    def testNeahBayloads(self):
+        # Load the NeahBay data
+        NB = tides.load_Neah_Bay('../Data/')
+        self.assertIs(type(NB),pandas.core.frame.DataFrame)
+
+    def testPortAngelesfails(self):
+        # Check that the Port Angeles can't be loaded
+        PA = tides.load_Port_Angeles('Bad Directory')
+        self.assertTrue(PA == None)
+
+    def testPortAngelesloads(self):
+        # Check that the Port Angeles will load
+        PA = tides.load_Port_Angeles('../Data/')
+        self.assertIs(type(PA),pandas.core.frame.DataFrame)
+
+    def testPortTownsendfails(self):
+    	PT = tides.load_Port_Townsend('Bad Directory')
+    	self.assertTrue(PT == None)
+
+    def testPortTownsendloads(self):
+        PT = tides.load_Port_Townsend('../Data/')
+        self.assertIs(type(PT),pandas.core.frame.DataFrame)
 
     def testCreateTideDataset(self):
         import xarray
@@ -49,18 +69,6 @@ class TestDataPlotting(unittest.TestCase):
         # Test when the times are switched
         self.assertRaises(IndexError, tides.plot_tide_data, Tides,
                              '2016','2015')
-
-
-    def testPlotTidalElevation(self):
-    	NB = tides.load_Neah_Bay('../Data/')
-        PA = tides.load_Port_Angeles('../Data/')
-        PT = tides.load_Port_Townsend('../Data/')
-        # Create the XArray dataset
-        Tides = tides.create_tide_dataset(NB, PA, PT)
-        # Generate DataArrays with time selection
-        NB = Tides.NeahBay.sel(datetime=slice('2015', '2016'))
-        PA = Tides.PortAngeles.sel(datetime=slice('2015', '2016'))
-        PT = Tides.PortTownsend.sel(datetime=slice('2015', '2016'))
 
 
 if __name__ == '__main__':
