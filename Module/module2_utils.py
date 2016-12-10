@@ -131,12 +131,8 @@ def plot_tide_data(Tides, time1, time2):
         time2 - end time to slice the tidal data
     """
     import numpy as np
-    tmin = np.array([Tides.NB.datetime.values.min(),
-                    Tides.PA.datetime.values.min(),
-                    TIdes.PT.datetime.values.min()]).min()
-    tmax = np.array([Tides.NB.datetime.values.max(),
-                    Tides.PA.datetime.values.max(),
-                    Tides.PT.datetime.values.max()]).max()
+    tmin = np.array(Tides.datetime.values.min())
+    tmax = np.array(Tides.datetime.values.max())
     if time2 < tmin:
         raise IndexError('Selected times are below available range.')
     elif time1 > tmax:
