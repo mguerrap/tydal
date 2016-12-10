@@ -100,7 +100,7 @@ def ferry_data_download(URL):
         print('File not found or unavailable')
         explanation = ' File not found or unavailable'
         file_downloaded = False
-    return (file_downloaded, explanation)
+    return (ferry, file_downloaded, explanation)
 
 
 def ferry_data_QC(ferry, TH_abs, TH_u, TH_d):
@@ -191,6 +191,8 @@ def plt_tide(pt_tide, time_index, start_date, end_date):
                  and a vertical marker
                  at the location specified in time_index
     """
+    if pt_tide[start_date:end_date].size < time_index:
+        raise ValueError('time_index out of specified date range')
     # sub_selected time for vertical bar, as chosen by time_index
     time = pt_tide[start_date:end_date].index[time_index]
     # note conversion to meters
