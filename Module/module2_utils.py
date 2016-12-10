@@ -137,6 +137,8 @@ def plot_tide_data(Tides, time1, time2):
         raise IndexError('Selected times are below available range.')
     elif np.datetime64(time1) > tmax:
         raise IndexError('Selected times are above available range.')
+    elif np.datetime64(time1) > np.datetime64(time2):
+        raise IndexError('End time occurs before start time.')
     else:
         try:
             from ipywidgets import interact
