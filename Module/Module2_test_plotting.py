@@ -58,7 +58,7 @@ class TestDataPlotting(unittest.TestCase):
         PT = tides.load_Port_Townsend('../Data/')
         # Create the XArray dataset
         Tides = tides.create_tide_dataset(NB, PA, PT)
-        self.assertRaises(TraitError, tides.plot_tide_data, Tides,
+        self.assertRaises(IndexError, tides.plot_tide_data, Tides,
                              '2016','2015')
 
 
