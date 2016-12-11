@@ -252,10 +252,10 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
     valid_xings = np.arange(min_xing, max_xing, 2)
     # check cross_index is in range
     if (crossing_index > valid_xings.size):
-        print('Invalid Ferry Xing index')
-        print(str(valid_xings.size) + ' number of crossings ' +
-              'for the chosen date range')
-        return
+        #print('Invalid Ferry Xing index')
+        #print(str(valid_xings.size) + ' number of crossings ' +
+        #      'for the chosen date range')
+        raise ValueError('Invalid Ferry Xing index')
     chosen_xing_num = valid_xings[crossing_index]
     # find indexing for both datasets
     ferry_time_index = ferry_subsample['time'].to_index()
