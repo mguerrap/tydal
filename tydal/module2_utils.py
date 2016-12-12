@@ -56,7 +56,7 @@ def load_Port_Townsend(datadir):
         return PortTownsend
     except FileNotFoundError:
         return None
-        
+
 
 def load_Port_Angeles(datadir):
     """
@@ -157,7 +157,6 @@ def plot_tide_data(Tides, time1, time2):
             raise ImportError("Please install ipywidgets")
 
 
-
 def plot_tidal_elevation(NB, PA, PT, slide):
     try:
         # Create a figure with 3 rows & 1 column
@@ -236,5 +235,3 @@ def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
         raise ImportError('Please install gmaps package')
     else:
         return None
-    
-    
