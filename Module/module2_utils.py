@@ -132,15 +132,15 @@ def plot_tide_data(Tides, time1, time2):
     """
     import numpy as np
     import pandas as pd
-    time1 = np.datetime64(pd.to_datetime(time1))
-    time2 = np.datetime64(pd.to_datetime(time2))
+    t1 = np.datetime64(pd.to_datetime(time1))
+    t2 = np.datetime64(pd.to_datetime(time2))
     tmin = np.datetime64(Tides.datetime.values.min())
     tmax = np.datetime64(Tides.datetime.values.max())
-    if time2 < tmin:
+    if t2 < tmin:
         raise IndexError('Selected times are below available range.')
-    elif time1 > tmax:
+    elif t1 > tmax:
         raise IndexError('Selected times are above available range.')
-    elif time1 > time2:
+    elif t1 > t2:
         raise IndexError('End time occurs before start time.')
     else:
         try:
