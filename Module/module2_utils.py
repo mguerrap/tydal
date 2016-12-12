@@ -56,7 +56,7 @@ def load_Port_Townsend(datadir):
         return PortTownsend
     except FileNotFoundError:
         return None
-        
+
 
 def load_Port_Angeles(datadir):
     """
@@ -131,13 +131,15 @@ def plot_tide_data(Tides, time1, time2):
         time2 - end time to slice the tidal data
     """
     import numpy as np
-    tmin = np.array(Tides.datetime.values.min())
-    tmax = np.array(Tides.datetime.values.max())
-    if np.datetime64(time2) < tmin:
+    time1 = np.datetime64(pd.to_datetime(time1))
+    time2 = np.datetime64(pd.to_datetime(time2))
+    tmin = np.datetime64(Tides.datetime.values.min())
+    tmax = np.datetime64(Tides.datetime.values.max())
+    if time2 < tmin:
         raise IndexError('Selected times are below available range.')
-    elif np.datetime64(time1) > tmax:
+    elif time1 > tmax:
         raise IndexError('Selected times are above available range.')
-    elif np.datetime64(time1) > np.datetime64(time2):
+    elif time1 > time2:
         raise IndexError('End time occurs before start time.')
     else:
         try:
@@ -155,7 +157,6 @@ def plot_tide_data(Tides, time1, time2):
                      dt=slide)
         except ImportError:
             raise ImportError("Please install ipywidgets")
-
 
 
 def plot_tidal_elevation(NB, PA, PT, slide):
@@ -236,5 +237,3 @@ def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
         raise ImportError('Please install gmaps package')
     else:
         return None
-    
-    
