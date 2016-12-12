@@ -14,7 +14,7 @@ class TestModule2(unittest.TestCase):
     def testNeahBayloads(self):
         # Load the NeahBay data
         NB = tides.load_Neah_Bay('../Data/')
-        self.assertIs(type(NB),pandas.core.frame.DataFrame)
+        self.assertIs(type(NB), pandas.core.frame.DataFrame)
 
     def testPortAngelesfails(self):
         # Check that the Port Angeles can't be loaded
@@ -24,15 +24,15 @@ class TestModule2(unittest.TestCase):
     def testPortAngelesloads(self):
         # Check that the Port Angeles will load
         PA = tides.load_Port_Angeles('../Data/')
-        self.assertIs(type(PA),pandas.core.frame.DataFrame)
+        self.assertIs(type(PA), pandas.core.frame.DataFrame)
 
     def testPortTownsendfails(self):
-    	PT = tides.load_Port_Townsend('Bad Directory')
-    	self.assertTrue(PT == None)
+        PT = tides.load_Port_Townsend('Bad Directory')
+        self.assertTrue(PT == None)
 
     def testPortTownsendloads(self):
         PT = tides.load_Port_Townsend('../Data/')
-        self.assertIs(type(PT),pandas.core.frame.DataFrame)
+        self.assertIs(type(PT), pandas.core.frame.DataFrame)
 
     def testCreateTideDataset(self):
         import xarray
@@ -62,13 +62,13 @@ class TestModule2(unittest.TestCase):
         Tides = tides.create_tide_dataset(NB, PA, PT)
         # Test that time selection is below available times
         self.assertRaises(IndexError, tides.plot_tide_data, Tides,
-                             '2012','2013')
+                          '2012', '2013')
         # Test when time selection is above time range
         self.assertRaises(IndexError, tides.plot_tide_data, Tides,
-                             '2017','2018')
+                          '2017', '2018')
         # Test when the times are switched
         self.assertRaises(IndexError, tides.plot_tide_data, Tides,
-                             '2016','2015')
+                          '2016', '2015')
 
 
 if __name__ == '__main__':
