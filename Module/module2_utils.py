@@ -131,6 +131,7 @@ def plot_tide_data(Tides, time1, time2):
         time2 - end time to slice the tidal data
     """
     import numpy as np
+    import pandas as pd
     time1 = np.datetime64(pd.to_datetime(time1))
     time2 = np.datetime64(pd.to_datetime(time2))
     tmin = np.datetime64(Tides.datetime.values.min())
