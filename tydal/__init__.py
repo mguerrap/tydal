@@ -1,1 +1,1 @@
-__all__ = ['MoonCycleDates', 'data_get_2014', 'data_get_year', 'ferry_data_utils', 'tide_utils']
+__all__ = ['data_get_2014', 'data_get_year', 'ferry_data_utils', 'module1_utils', 'module2_utils', 'module3_utils', 'MoonCycleDates', 'plot_currents', 'tidal_currents', 'unit_test_module3', 'tide_utils']

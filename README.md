@@ -29,10 +29,14 @@ The project has the following structure:
 		tydal/
 			MoonCycleDates.py
 			data_get_year.py
-			tide_utils.py
+			module1_utils.py
+			module2_utils.py
+			module3_utils.py
+			test_module1_utils.py
+			test_module2_utils.py
+			test_module3_utils.py
 			ferry_data_utils.py
 			data_get_2014.py
-			module3_utils.py
 			functions.py
 			__init__.py
 		Figures/
