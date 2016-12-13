@@ -29,7 +29,7 @@ The project has the following structure:
 		tydal/
 			MoonCycleDates.py
 			data_get_year.py
-			tide_utils.py
+			module2_utils.py
 			ferry_data_utils.py
 			data_get_2014.py
 			module3_utils.py
@@ -49,6 +49,7 @@ The project has the following structure:
 			NewMoon.jpg
 		analysis/
 		tests/
+			test_module2_utils.py
 
 ******************************************************************************
 MIT license:
