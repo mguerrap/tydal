@@ -112,11 +112,7 @@ def tidal_plot(data, start_time, end_time, title="Tidal Elevation",
     plt.plot(subset["Date Time"], subset["Water Level"])
     plt.show()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 921e7ea55bf2ddeab7fb3703c338f0fda79943a7
+
 def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elevation",
                sized=(12,6)):
     """
@@ -152,7 +148,7 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elev
 
     subset1 = trim_data(data1, start_time, end_time)
     subset2 = trim_data(data2, start_time, end_time)
-    subset2 = trim_data(data2, start_time, end_time)
+    subset3 = trim_data(data3, start_time, end_time)
     f = plt.figure()
     plt.style.use("ggplot")
     plt.subplots(figsize=sized)
@@ -165,6 +161,7 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elev
     ax.legend()
     plt.show()
 
+
 def plot_SemiDirunalTides():
    """Function that plots Semi Durnal Tides from North Carolina
    Input-none
@@ -172,19 +169,13 @@ def plot_SemiDirunalTides():
    """
  
    data = pd.read_csv("../Data/SemiDiurnalTides.csv", parse_dates=["Date Time"])
-
    fig, ax = plt.subplots(figsize=(15,8))
    plt.style.use("ggplot")
    plt.plot(data["Date Time"], data["Water Level"])
    plt.xlabel("Time of day")
    plt.ylabel("Water Height")
    plt.title("Semidiurnal Tides in North Carolina")
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 0740f9073658fdcb8a753e2da2c3dd613da9c3be
->>>>>>> 921e7ea55bf2ddeab7fb3703c338f0fda79943a7
+
 
 def interplot(data, start, end):
     """
@@ -301,12 +292,8 @@ def multistation_moon(data, cycle_days):
 
     ax3.plot(subset[2]["Date Time"], subset[2]["Water Level"])
     ax3.set_title("Port Angeles Water Level")
-<<<<<<< HEAD
->>>>>>> 631cbf575f4039a4bc979efe54b57a8ff707f592
-=======
-<<<<<<< HEAD
->>>>>>> 631cbf575f4039a4bc979efe54b57a8ff707f592
-=======
+
+
 def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elevation",
                sized=(12,6)):
     """
@@ -342,7 +329,7 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elev
 
     subset1 = trim_data(data1, start_time, end_time)
     subset2 = trim_data(data2, start_time, end_time)
-    subset2 = trim_data(data2, start_time, end_time)
+    subset3 = trim_data(data3, start_time, end_time)
     f = plt.figure()
     plt.style.use("ggplot")
     plt.subplots(figsize=sized)
@@ -354,6 +341,7 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elev
     plt.title(title)
     ax.legend()
     plt.show()
+
 
 def plot_SemiDirunalTides():
    """Function that plots Semi Durnal Tides from North Carolina
@@ -369,6 +357,3 @@ def plot_SemiDirunalTides():
    plt.xlabel("Time of day")
    plt.ylabel("Water Height")
    plt.title("Semidiurnal Tides in North Carolina")
-
->>>>>>> 0740f9073658fdcb8a753e2da2c3dd613da9c3be
->>>>>>> 921e7ea55bf2ddeab7fb3703c338f0fda79943a7
