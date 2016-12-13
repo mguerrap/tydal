@@ -3,20 +3,24 @@ import module3_utils as m3
 import module2_utils as tu
 import numpy as np
 
+
 class TestCurrentModel(unittest.TestCase):
 
     def test_currents_bad_alpha(self):
-        # Assert when alpha is less than 0 
+        # Assert when alpha is less than 0
         with self.assertRaises(ValueError):
             m3.tidal_currents(12.42, 1, 1, -10)
+
     def test_currents_bad_a1(self):
-        # Assert when alpha is less than 0 
+        # Assert when alpha is less than 0
         with self.assertRaises(ValueError):
             m3.tidal_currents(12.42, -1, 1, 10)
+
     def test_currents_bad_a2(self):
-        # Assert when alpha is less than 0 
+        # Assert when alpha is less than 0
         with self.assertRaises(ValueError):
             m3.tidal_currents(12.42, 1, -1, 10)
+
 
 class TestFerryImport(unittest.TestCase):
 
@@ -26,13 +30,14 @@ class TestFerryImport(unittest.TestCase):
         result = m3.ferry_data_download(URL1)
         self.assertTrue(result[1])
         explanation = 'Good URL, File downloaded'
-        self.assertEqual(result[2],explanation)
+        self.assertEqual(result[2], explanation)
 
     def testFerryQC_error(self):
         ferry = np.nan
-        # Assert when ferry is a nan value 
+        # Assert when ferry is a nan value
         with self.assertRaises(ValueError):
-            m3.ferry_data_QC(ferry,6.5,5,5)
+            m3.ferry_data_QC(ferry, 6.5, 5, 5)
+
 
 class TestFerryPloting(unittest.TestCase):
 
@@ -42,9 +47,10 @@ class TestFerryPloting(unittest.TestCase):
         self.pt_tide = pt_tide['Water Level']
 
         # import and clean ferry data
-        URL1 = 'http://107.170.217.21:8080/thredds/dodsC/Salish_L1_STA/Salish_L1_STA.ncml'
+        URL1 = ('http://107.170.217.21:8080/thredds/dodsC/Salish_L1_STA/' +
+                'Salish_L1_STA.ncml')
         (ferry, file_downloaded, explanation) = m3.ferry_data_download(URL1)
-        #ferryQC = m3.ferry_data_QC(ferry,6.5,4,4)
+        # ferryQC = m3.ferry_data_QC(ferry,6.5,4,4)
         self.ferryQC = m3.count_route_num(ferry)
 
         # define dates
@@ -70,9 +76,8 @@ class TestFerryPloting(unittest.TestCase):
     def test_count_route_num(self):
         ferry_out = m3.count_route_num(self.ferryQC)
         self.assertTrue(hasattr(ferry_out, 'xing_num'))
-        #self.assertTrue(min(ferry_out['xing_num']) == -9)
-        #self.assertTrue(max(ferry_out['xing_num']) > 0)
-        
+        # self.assertTrue(min(ferry_out['xing_num']) == -9)
+        # self.assertTrue(max(ferry_out['xing_num']) > 0)
 
 if __name__ == '__main__':
     unittest.main()
