@@ -1,6 +1,6 @@
 import unittest
 import pandas
-import module2_utils as tides
+import tydal.module2_utils as tides
 
 
 class TestModule2(unittest.TestCase):
