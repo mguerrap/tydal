@@ -13,7 +13,7 @@ def load_Neah_Bay(datadir):
     Datadir is the directory path to where the data is located
     """
     try:
-    	NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
+        NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
                                    parse_dates=['Date Time'],
                                    index_col=['Date Time'])
         NeahBay_2015 = pd.read_csv(datadir + "2015_NeahBay.csv",
@@ -27,7 +27,7 @@ def load_Neah_Bay(datadir):
         NeahBay.index.rename('datetime', inplace=True)
         return NeahBay
     except FileNotFoundError:
-    	raise FileNotFoundError('Check data directory')
+        return None
 
 
 def load_Port_Townsend(datadir):
@@ -37,9 +37,7 @@ def load_Port_Townsend(datadir):
     data are saved. Returns None if files are not located in
     specified directory.
     """
-    if not glob.glob(os.path.join(datadir, '*PortTownsend.csv')):
-        return None
-    else:
+    try:
         PortTownsend_2014 = pd.read_csv(datadir +
                                         '2014_PortTownsend.csv',
                                         parse_dates=['Date Time'],
@@ -56,6 +54,8 @@ def load_Port_Townsend(datadir):
         PortTownsend = PortTownsend.append(PortTownsend_2016)
         PortTownsend.index.rename('datetime', inplace=True)
         return PortTownsend
+    except FileNotFoundError:
+        return None
 
 
 def load_Port_Angeles(datadir):
@@ -65,9 +65,7 @@ def load_Port_Angeles(datadir):
     data are saved. Returns None if files are not located in
     specified directory.
     """
-    if not glob.glob(os.path.join(datadir, '*PortAngeles.csv')):
-        return None
-    else:
+    try:
         # Load the Port Angeles tidal data and put into one dataframe
         PortAngeles_2014 = pd.read_csv(datadir +
                                        '2014_PortAngeles.csv',
@@ -85,6 +83,8 @@ def load_Port_Angeles(datadir):
         PortAngeles = PortAngeles.append(PortAngeles_2016)
         PortAngeles.index.rename('datetime', inplace=True)
         return PortAngeles
+    except:
+        return None
 
 
 def load_tide_data(datadir):
@@ -110,12 +110,15 @@ def create_tide_dataset(NeahBay, PortAngeles, PortTownsend):
     Function takes in the tidal station dataframes and returns
     an Xarray Dataset with the tidal station data
     """
-    NB = xr.DataArray(NeahBay['Water Level'], dims='datetime')
-    PA = xr.DataArray(PortAngeles['Water Level'], dims='datetime')
-    PT = xr.DataArray(PortTownsend['Water Level'], dims='datetime')
-    Tides = xr.Dataset({'NeahBay': NB, 'PortAngeles': PA,
-                       'PortTownsend': PT})
-    return Tides
+    try:
+        NB = xr.DataArray(NeahBay['Water Level'], dims='datetime')
+        PA = xr.DataArray(PortAngeles['Water Level'], dims='datetime')
+        PT = xr.DataArray(PortTownsend['Water Level'], dims='datetime')
+        Tides = xr.Dataset({'NeahBay': NB, 'PortAngeles': PA,
+                           'PortTownsend': PT})
+        return Tides
+    except:
+        return None
 
 
 def plot_tide_data(Tides, time1, time2):
@@ -127,16 +130,34 @@ def plot_tide_data(Tides, time1, time2):
         time1 - start time to slice the tidal data
         time2 - end time to slice the tidal data
     """
-    from ipywidgets import interact
-    import ipywidgets as widgets
+    import numpy as np
+    import pandas as pd
+    time1 = np.datetime64(pd.to_datetime(time1))
+    time2 = np.datetime64(pd.to_datetime(time2))
+    tmin = np.datetime64(Tides.datetime.values.min())
+    tmax = np.datetime64(Tides.datetime.values.max())
+    if time2 < tmin:
+        raise IndexError('Selected times are below available range.')
+    elif time1 > tmax:
+        raise IndexError('Selected times are above available range.')
+    elif time1 > time2:
+        raise IndexError('End time occurs before start time.')
+    else:
+        try:
+            from ipywidgets import interact
+            import ipywidgets as widgets
 
-    NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
-    PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
-    PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
+            NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
+            PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
+            PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
 
-    slide = widgets.IntSlider(1, 1, len(NB.datetime.values)-1)
-    interact(plot_tide_time_series, NB=widgets.fixed(NB),
-             PA=widgets.fixed(PA), PT=widgets.fixed(PT), dt=slide)
+            slide = widgets.IntSlider(1, 1,
+                                      len(NB.datetime.values)-1)
+            interact(plot_tide_time_series, NB=widgets.fixed(NB),
+                     PA=widgets.fixed(PA), PT=widgets.fixed(PT),
+                     dt=slide)
+        except ImportError:
+            raise ImportError("Please install ipywidgets")
 
 
 def plot_tidal_elevation(NB, PA, PT, slide):
@@ -194,7 +215,7 @@ def plot_tide_time_series(NB, PA, PT, dt):
         return None
 
 
-def add_station_maps():
+def add_station_maps(API='AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q'):
     """
     This function displays a google map of the
     locations of the three stations with the
@@ -208,11 +229,12 @@ def add_station_maps():
     # Generate the google map
     try:
         import gmaps
-        gmaps.configure(api_key=
-                        "AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q")
+        gmaps.configure(api_key=API)
         m = gmaps.Map()
         markers = gmaps.marker_layer(latlon)
         m.add_layer(markers)
         return m
     except ImportError:
         raise ImportError('Please install gmaps package')
+    else:
+        return None
