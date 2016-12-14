@@ -30,7 +30,7 @@ def tidal_currents(T, a1, a2, alpha):
     g = 9.81
     L = 200000
     H = 200
-    alpha = alpha*pi/180
+    alpha = alpha*np.pi/180
     # pass period to seconds
     T = T*3600
     w = 2*np.pi/T
