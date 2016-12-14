@@ -9,8 +9,6 @@ The project has the following structure:
 	tydal/
 		README.md
 		LICENSE.md
-		UseCases.md
-		DataSetDescription.md
 		.gitignore
 		Data/
 			2014_NeahBay.csv
@@ -23,6 +21,10 @@ The project has the following structure:
 			2015_PortAngeles.csv
 			2016_PortAngeles.csv
 			SemiDiurnalTides.csv
+		Doc/
+			UseCases.md
+			DataSetDescription.md
+			Presentation.pp
 		Module1_Tides.ipynb
 		Module2.ipynb
 		Module3_TidalCurrents.ipynb
@@ -51,8 +53,7 @@ The project has the following structure:
 			MapOfStations.jpg
 			TidalBulge.jpg
 			NewMoon.jpg
-		analysis/
-		tests/
+
 
 ******************************************************************************
 MIT license:
