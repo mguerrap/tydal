@@ -21,6 +21,10 @@ class TestCurrentModel(unittest.TestCase):
         with self.assertRaises(ValueError):
             m3.tidal_currents(12.42, 1, -1, 10)
 
+    def test_plot_currents_bad(self):
+        # Assert when alpha is less than 0
+        with self.assertRaises(ValueError):
+            m3.plot_currents(12.42, 1, 2, 30, 500)
 
 class TestFerryImport(unittest.TestCase):
 

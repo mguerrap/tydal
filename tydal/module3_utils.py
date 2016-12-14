@@ -30,6 +30,7 @@ def tidal_currents(T, a1, a2, alpha):
     g = 9.81
     L = 200000
     H = 200
+    alpha = alpha*pi/180
     # pass period to seconds
     T = T*3600
     w = 2*np.pi/T
@@ -50,9 +51,9 @@ def plot_currents(T, a1, a2, alpha, N):
         a2 = tidal amplitude estuary side (m)
         alpha = a phase difference in degrees (º), greater than zero
         N = a time position in which to estimate u, must be less than 101"""
-    # Raise value error if N>100
-    if N > 100:
-        raise ValueErrror('N must be less than 100')
+    # Raise value error if N>400
+    if N > 400:
+        raise ValueError('N must be less than 400')
     [u, time] = tidal_currents(T, a1, a2, alpha)
     abs_u = np.absolute(u)
     max_u = np.amax(abs_u)
@@ -252,8 +253,8 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
     valid_xings = np.arange(min_xing, max_xing, 2)
     # check cross_index is in range
     if (crossing_index > valid_xings.size):
-        #print('Invalid Ferry Xing index')
-        #print(str(valid_xings.size) + ' number of crossings ' +
+        # print('Invalid Ferry Xing index')
+        # print(str(valid_xings.size) + ' number of crossings ' +
         #      'for the chosen date range')
         raise ValueError('Invalid Ferry Xing index')
     chosen_xing_num = valid_xings[crossing_index]
