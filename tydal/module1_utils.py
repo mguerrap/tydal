@@ -227,9 +227,6 @@ def multistation_moon(data, cycle_days):
     ax2.set_title("Port Townsend Water Level")
 
     ax3.plot(subset[2]["Date Time"], subset[2]["Water Level"])
-<<<<<<< HEAD
-    ax3.set_title("Port Angeles Water Level")
-=======
     ax3.set_title("Port Angeles Water Level")
 
 
@@ -281,4 +278,3 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time,
     plt.title(title)
     ax.legend()
     plt.show()
->>>>>>> e9c842703b781d0fbc4599302e17d0fdb0869a6d
