@@ -12,15 +12,21 @@ from matplotlib import path
 def tidal_currents(T, a1, a2, alpha):
     """Function estimates a depth averaged velocity
     for a simple tidal channel
-    Inputs: T = Tide period (hours)
-    a1 = tidal amplitude ocean side (m)
-    a2 = tidal amplitude estuary side (m)
-    alpha = a phase difference in degrees (º)
-    L = channel length (m)
-    H = channel depth (m)
-    time = time at which to estimate the current,
-    a number between 0 and 1, it corresponds to a stage in the tide
-    Outputs: u_t = depth average current at several times between 0 and 4T"""
+    Inputs:
+        T = Tide period (hours)
+        a1 = tidal amplitude ocean side (m), greater than 0
+        a2 = tidal amplitude estuary side (m), greater than 0
+        alpha = a phase difference in degrees (º), greater than zero
+        L = channel length (m)
+        H = channel depth (m)
+    Outputs:
+        u_t = depth average current at several times between 0 and 4T"""
+    if alpha < 0:
+        raise ValueError('Alpha must be greater than 0')
+    if a1 < 0:
+        raise ValueError('Amplitude 1 must be greater than 0')
+    if a2 < 0:
+        raise ValueError('Amplitude 2 must be greater than 0')
     g = 9.81
     L = 200000
     H = 200
@@ -38,10 +44,15 @@ def plot_currents(T, a1, a2, alpha, N):
     plots a time series of u(t), and a dot
     in a specific velocity. Also plots an arrow
     showing the direction of the current and its magnitude
-    Inputs: u = time series of u, created using tidal_currents.py
-    t = time corresponding to that time series
-    T = tidal period used
-    t_single = time of location of dot"""
+    Inputs:
+        T = Tide period (hours)
+        a1 = tidal amplitude ocean side (m)
+        a2 = tidal amplitude estuary side (m)
+        alpha = a phase difference in degrees (º), greater than zero
+        N = a time position in which to estimate u, must be less than 101"""
+    # Raise value error if N>100
+    if N > 100:
+        raise ValueErrror('N must be less than 100')
     [u, time] = tidal_currents(T, a1, a2, alpha)
     abs_u = np.absolute(u)
     max_u = np.amax(abs_u)
@@ -81,11 +92,13 @@ def plot_currents(T, a1, a2, alpha, N):
 
 def ferry_data_download(URL):
     """Downloads the ADCP data from ferry
-    Inputs:
-    URL with the location of the ferry NetCDF file,
-    must end with .ncml
-    Outputs:
-    An object containing the link to the ferry data """
+        Inputs:
+        URL with the location of the ferry NetCDF file,
+        must end with .ncml
+        Outputs:
+        ferry: An object containing the link to the ferry data
+        ferry_downloaded: A boolean for file download
+        explanation: A message"""
     explanation = 'File exists'
     file_downloaded = True
     # Request if the thredds server is working, add .html to URL
@@ -93,29 +106,37 @@ def ferry_data_download(URL):
     if req.status_code == 200:
         """File exists and is good for download, so write file"""
         print('File is ok')
-        explanation = 'Good URL File downloaded'
+        explanation = 'Good URL, File downloaded'
         file_downloaded = True
         ferry = xr.open_dataset(URL)
     else:
         print('File not found or unavailable')
         explanation = ' File not found or unavailable'
         file_downloaded = False
+        ferry = np.nan
     return (ferry, file_downloaded, explanation)
 
 
 def ferry_data_QC(ferry, TH_abs, TH_u, TH_d):
     """Gets the variables and pass a QC to estimate final velocities
-    Inputs: ferry data in an xarray DataSet, treshold for absolute
-    velocities, TH for true velicities, TH for depth
-    Outputs: Quality Controled ferry data in a xarra DataSet
-
-    # QC1: make nan all Absolute velocities that are greater than 6.5 m/s """
+        Inputs:
+            ferry: ferry link object as an xarray DataSet
+            TH_abs: treshold for absolute velocities
+            TH_u: treshold for true velicities
+            TH_d: treshold for depth
+        Outputs:
+            ferryQC: Quality Controled ferry data in a xarray DataSet"""
+    if type(ferry) is not xr.core.dataset.Dataset:
+        raise ValueError('Ferry is not defined')
+    # QC1: make nan all Absolute velocities that are greater than 6.5 m/s
     abs_u = ferry.eastward_absolute_water_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
+
     abs_v = ferry.northward_absolute_water_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
+
     abs_w = ferry.vertical_absolute_water_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
@@ -124,9 +145,11 @@ def ferry_data_QC(ferry, TH_abs, TH_u, TH_d):
     east_btv = ferry.eastward_bottom_tracking_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
+
     north_btv = ferry.northward_bottom_tracking_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
+
     vert_btv = ferry.vertical_bottom_tracking_velocity.where(
         (abs(ferry.eastward_absolute_water_velocity) < TH_abs) &
         (abs(ferry.northward_absolute_water_velocity) < TH_abs))
@@ -147,7 +170,8 @@ def ferry_data_QC(ferry, TH_abs, TH_u, TH_d):
     ferry['Horizontal_speed'] = U
     # Remove first 5 rows of depth
     ferryQC = ferry.isel(depth=slice(TH_d, None))
-    return(ferryQC)
+    goodQC = True
+    return(ferryQC, goodQC)
 
 
 def count_route_num(ferryQc):
