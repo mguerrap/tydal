@@ -230,8 +230,8 @@ def multistation_moon(data, cycle_days):
     ax3.set_title("Port Angeles Water Level")
 
 
-def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elevation",
-               sized=(12,6)):
+def tidal_plot_all3(data1, data2, data3, start_time, end_time,
+                    title="Tidal Elevation", sized=(12, 6)):
     """
     This function takes in a dataframe object, a start and end time, and a time
     index.  It generates a plot from start to end of tidal elevation from data.
@@ -259,8 +259,9 @@ def tidal_plot_all3(data1, data2, data3, start_time, end_time, title="Tidal Elev
 
     OUTPUT
     ------------------
-    This function returns a matplotlib plot with tidal elevations from all three ports
-    start_time to end_time with a vertical marker at the specified time_index
+    This function returns a matplotlib plot with tidal elevations from all
+    three ports start_time to end_time with a vertical marker at the specified
+    time_index
     """
 
     subset1 = trim_data(data1, start_time, end_time)
