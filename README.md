@@ -21,13 +21,6 @@ The project has the following structure:
 			2015_PortAngeles.csv
 			2016_PortAngeles.csv
 			SemiDiurnalTides.csv
-            Ferry_Data_Exploration/
-                ferry_data_utils.py
-                ferry_data_utils.pyc
-                ferry_data_utilsMG.py
-                ferry_data.py
-                FerryData_2014.ipynb
-                FerryDataExploration.ipynb
 		Doc/
 			UseCases.md
 			DataSetDescription.md
@@ -80,12 +73,6 @@ The project has the following structure:
             EbbTideCurrent.jpg
             SlackTide.jpg
             TidalBulge.jpg
-            
-<<<<<<< HEAD
-=======
-
->>>>>>> e9c842703b781d0fbc4599302e17d0fdb0869a6d
-
 
 ******************************************************************************
 MIT license:
