@@ -12,10 +12,8 @@ def load_Neah_Bay(datadir):
     and returns a dataframe and a Datetime Index object
     Datadir is the directory path to where the data is located
     """
-    if not glob.glob(os.path.join(datadir, '*NeahBay.csv')):
-        return None
-    else:
-        NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
+    try:
+    	NeahBay_2014 = pd.read_csv(datadir + "2014_NeahBay.csv",
                                    parse_dates=['Date Time'],
                                    index_col=['Date Time'])
         NeahBay_2015 = pd.read_csv(datadir + "2015_NeahBay.csv",
@@ -28,6 +26,8 @@ def load_Neah_Bay(datadir):
         NeahBay = NeahBay.append(NeahBay_2016)
         NeahBay.index.rename('datetime', inplace=True)
         return NeahBay
+    except FileNotFoundError:
+    	raise FileNotFoundError('Check data directory')
 
 
 def load_Port_Townsend(datadir):
@@ -118,7 +118,7 @@ def create_tide_dataset(NeahBay, PortAngeles, PortTownsend):
     return Tides
 
 
-def plot_tide_data(Tides,time1,time2):
+def plot_tide_data(Tides, time1, time2):
     """
     Function that allows to pass through variables to
     the interactive widget.
@@ -130,30 +130,30 @@ def plot_tide_data(Tides,time1,time2):
     from ipywidgets import interact
     import ipywidgets as widgets
 
-    NB = Tides.NeahBay.sel(datetime=slice(time1,time2))
-    PA = Tides.PortAngeles.sel(datetime=slice(time1,time2))
-    PT = Tides.PortTownsend.sel(datetime=slice(time1,time2))
+    NB = Tides.NeahBay.sel(datetime=slice(time1, time2))
+    PA = Tides.PortAngeles.sel(datetime=slice(time1, time2))
+    PT = Tides.PortTownsend.sel(datetime=slice(time1, time2))
 
-    slide = widgets.IntSlider(1,1,len(NB.datetime.values)-1)
-    interact(plot_tide_time_series,NB=widgets.fixed(NB),
-             PA=widgets.fixed(PA),PT=widgets.fixed(PT),dt=slide)
+    slide = widgets.IntSlider(1, 1, len(NB.datetime.values)-1)
+    interact(plot_tide_time_series, NB=widgets.fixed(NB),
+             PA=widgets.fixed(PA), PT=widgets.fixed(PT), dt=slide)
 
 
-def plot_tidal_elevation(NB,PA,PT,slide):
+def plot_tidal_elevation(NB, PA, PT, slide):
     try:
         # Create a figure with 3 rows & 1 column
-        fig, axes = plt.subplots(nrows=1,ncols=1)
+        fig, axes = plt.subplots(nrows=1, ncols=1)
         # Get each station's tidal elevation based on the widget slider
         NBelev = NB.values[slide]
         PAelev = PA.values[slide]
         PTelev = PT.values[slide]
         # Create dummy x-values
-        x=(1,2,3)
-        y=(NBelev,PAelev,PTelev)
+        x = (1, 2, 3)
+        y = (NBelev, PAelev, PTelev)
         # Create the figure with station labels
-        plt.scatter(x,y,s=100,color="red",zorder=2)
-        plt.plot(x,y,'b',zorder=1)
-        plt.xticks(x,['Neah Bay', 'Port Angeles', 'Port Townsend'],
+        plt.scatter(x, y, s=100, color="red", zorder=2)
+        plt.plot(x, y, 'b', zorder=1)
+        plt.xticks(x, ['Neah Bay', 'Port Angeles', 'Port Townsend'],
                    rotation='vertical')
         plt.grid()
         plt.ylabel('Tidal Elevation (m)')
@@ -161,7 +161,7 @@ def plot_tidal_elevation(NB,PA,PT,slide):
         return None
 
 
-def plot_tide_time_series(NB,PA,PT,dt):
+def plot_tide_time_series(NB, PA, PT, dt):
     """
     This function plots the three tidal stations for the given
     time period along with a marker showing the time and elevation
@@ -171,23 +171,48 @@ def plot_tide_time_series(NB,PA,PT,dt):
         PA - Port Angeles tide DataArray
         PT - Port Townsend tide DataArray
     """
-    fig, axes = plt.subplots(nrows=3)
-    NB.plot(ax=axes[0])
-    axes[0].scatter(x=NB.datetime.values[dt],y=NB.values[dt],color="red",s=100)
-    axes[0].grid()
-    axes[0].set_title('Tidal Elevation (m)')
+    try:
+        fig, axes = plt.subplots(nrows=3)
+        NB.plot(ax=axes[0])
+        axes[0].scatter(x=NB.datetime.values[dt], y=NB.values[dt],
+                        color="red", s=100)
+        axes[0].grid()
+        axes[0].set_title('Tidal Elevation (m)')
 
-    PA.plot(ax=axes[1])
-    axes[1].scatter(x=NB.datetime.values[dt],y=PA.values[dt],color="red",s=100)
-    axes[1].grid()
+        PA.plot(ax=axes[1])
+        axes[1].scatter(x=NB.datetime.values[dt], y=PA.values[dt],
+                        color="red", s=100)
+        axes[1].grid()
 
-    PT.plot(ax=axes[2])
-    axes[2].scatter(x=NB.datetime.values[dt],y=PT.values[dt],color="red",s=100)
-    axes[2].grid()
-    
-    plot_tidal_elevation(NB,PA,PT,dt)
+        PT.plot(ax=axes[2])
+        axes[2].scatter(x=NB.datetime.values[dt], y=PT.values[dt],
+                        color="red", s=100)
+        axes[2].grid()
+
+        plot_tidal_elevation(NB, PA, PT, dt)
+    except:
+        return None
 
 
-
-
-
+def add_station_maps():
+    """
+    This function displays a google map of the
+    locations of the three stations with the
+    tidal data
+    """
+    # Put in the locations of the tidal stations
+    NB = [48 + 22.2/60, -(124 + 36.1/60)]
+    PA = [48 + 7.5/60, -(123 + 26.5/60)]
+    PT = [48 + 6.8/60, -(122 + 45.6/60)]
+    latlon = [tuple(NB), tuple(PA), tuple(PT)]
+    # Generate the google map
+    try:
+        import gmaps
+        gmaps.configure(api_key=
+                        "AIzaSyASHzuwtrEHNRuadF-MhNbARUnSyFfRA9Q")
+        m = gmaps.Map()
+        markers = gmaps.marker_layer(latlon)
+        m.add_layer(markers)
+        return m
+    except ImportError:
+        raise ImportError('Please install gmaps package')
