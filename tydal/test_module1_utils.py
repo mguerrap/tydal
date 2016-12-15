@@ -19,7 +19,8 @@ class TestMod1(unittest.TestCase):
         result = pd.DataFrame({"A": [2, 3],
                                "Date Time": pd.date_range('1/2/2014',
                                                           periods=2)})
-        self.assertEqual(trim_data(new, "2014-01-02", "2014-01-03"), result)
+        self.assertEqual(mod1.trim_data(df, "2014-01-02", "2014-01-03").shape,
+                         result.shape)
 
 
 if __name__ == "__main__":
