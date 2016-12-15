@@ -17,3 +17,13 @@ First_2014 = ["20140107", "20140206", "20140308", "20140407", "20140506",
 Third_2014 = ["20140123", "20140222", "20140323", "20140422", "20140521",
 	"20140619", "20140718", "20140817", "20140915", "20141015", "20141114",
 	"20141214"]
+
+import datetime as dt
+
+def mcddatetime(Moon):
+    """Makes Moon Cycle date into datetime format for plotting"""
+    dates = [(dt.datetime.strptime(date, '%Y%m%d').date() + pd.DateOffset(hours=0)) for date in Moon]
+    modified_data=pd.to_datetime(dates)
+    return modified_data
+
+
