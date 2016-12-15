@@ -31,29 +31,48 @@ The project has the following structure:
 		tydal/
 			MoonCycleDates.py
 			data_get_year.py
+            module1_fancy_graphs.py
 			module1_utils.py
 			module2_utils.py
 			module3_utils.py
+            plot_currents.py
+            quiz1.py
+            quiz2.py
+            quiz3.py
 			test_module1_utils.py
 			test_module2_utils.py
 			test_module3_utils.py
 			ferry_data_utils.py
-			data_get_2014.py
-			functions.py
+            tidal_currents.py
 			__init__.py
+            __pychache__/
+                __init__.cpython-35.pyc
+                data_get_2014.cpython-35.pyc
+                data_get_year.cpython-35.pyc
+                module1_utils.cpython-35.pyc
+                MoonCycleDates.cpython-35.pyc
+                tide_utils.cpython-35.pyc
 		Figures/
 			Earth_Moon_Tides_Real.jpg
 			SunMoon_Full.jpg
 			Earth_Moon_Tides_Simple.jpg
 			SunMoon_Third.jpg
 			FirstQuarter.jpg
+            FirstQuarter.png
+            FloodTideCurrent.jpg
 			SunMoon_sum.jpg
 			FullMoon.jpg
-			ThirdQuarter.jpg
+			FullMoonA.png
+            MapOfStations.jpg
+            ThirdQuarter.jpg
+            ThreeQuarterMoonA.png
 			MapOfStations.jpg
 			TidalBulge.jpg
 			NewMoon.jpg
-
+            NewMoonA.png
+            EbbTideCurrent.jpg
+            SlackTide.jpg
+            TidalBulge.jpg
 
 ******************************************************************************
 MIT license:
