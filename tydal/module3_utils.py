@@ -287,7 +287,7 @@ def plt_ferry_and_tide(ferryQc, pt_tide, crossing_index, start_date, end_date):
     # format axes
     plt.gca().invert_yaxis()
     plt.ylabel('Depth [m]')
-    plt.clim(0, 3)
+    # plt.clim(0, 3)
     # format xticks
     xfmt = md.DateFormatter('%m-%d %H:%M')
     axes[1].xaxis.set_major_formatter(xfmt)
